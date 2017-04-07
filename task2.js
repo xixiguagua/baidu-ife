@@ -1,10 +1,32 @@
-
 var page = require('webpage').create();
 var system = require('system');
-var keyword = '';
-var t = Date.now();
-var url = '';
+var fs = require('fs');
+var keyword = system.args[1];
+var device = system.args[2];
 var datalist = [];
+var t = Date.now();
+var url = 'http://www.baidu.com/s?wd='+keyword;
+
+if(fs.exists('device.json')) {
+	var file = fs.open('device.json','r');
+	var content = '';
+	var config = null;
+	while (!file.atEnd()) {
+		content += file.readLine();
+	}
+	config = JSON.parse(content);
+	for(var i = 0;i < 4; i++){
+		if(device === config[i].name){
+			device = config[i];
+		}
+	}
+	page.settings.userAgent = device.ua;
+	page.viewportsSize = {
+		width:device.width,
+		height:device.height
+	};
+}
+
 phantom.outputEncoding = 'gb2312';
 
 page.onConsoleMessage = function(msg) {

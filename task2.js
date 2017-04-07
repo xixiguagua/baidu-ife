@@ -1,11 +1,11 @@
 var page = require('webpage').create();
 var system = require('system');
 var fs = require('fs');
-var keyword = system.args[1];
+var keyword = '';
 var device = system.args[2];
 var datalist = [];
 var t = Date.now();
-var url = 'http://www.baidu.com/s?wd='+keyword;
+var url = '';
 
 if(fs.exists('device.json')) {
 	var file = fs.open('device.json','r');
